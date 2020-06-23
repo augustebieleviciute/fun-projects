@@ -1,36 +1,29 @@
 import numpy as np
 
-A = np.array([[1,7,3],[7,4,-5],[3,-5,6]])
-B = np.array([[2,0,0],[0,1,0],[0,0,1]])
-C = np.array([[5,0,0],[0,0,0],[0,0,0]])
-D = np.array([1, 2, 2])
-print(A)
-print(B)
-
 class Matrix:
+    """Matrix operations"""
     def __init__(self, matrix1, matrix2):
         self.matrix1 = matrix1
         self.matrix2 = matrix2
-        self.sum = np.add(self.matrix1,self.matrix2)
+        self.sum = np.add(self.matrix1, self.matrix2)
         self.det = np.linalg.det(self.matrix1)
         self.transpose = np.transpose(self.matrix1)
         self.inverse = np.linalg.inv(self.matrix1)
         self.hermconj = np.conj(np.transpose(self.matrix1))
         self.trace = np.trace(self.matrix1)
-
-
         self.product = None
         self.type = ""
-        self.eigen = None
+        self.eigen = np.linalg.eig(A)
 
-    def product(self):
+    def productfn(self):
         compare = np.delete(self.matrix1, 0) == np.zeros_like(np.delete(self.matrix2, 0))
         if compare.all():
             self.product = self.matrix1[0][0] * self.matrix2
         else:
             self.product = self.matrix1@self.matrix2
+        return self.product
 
-    def type(self):
+    def typefn(self):
         if self.det == 0:
             self.type = self.type + " singular"
         compare = self.transpose == self.inverse
@@ -49,11 +42,18 @@ class Matrix:
         if compare.all():
             self.type = self.type + " symmetric"
 
-        print(type)
+        return self.type
 
+A = np.array([[1, 7, 3], [7, 4, -5], [3, -5, 6]])
+B = np.array([[2, 0, 0], [0, 1, 0], [0, 0, 1]])
+C = np.array([[5, 0, 0], [0, 0, 0], [0, 0, 0]])
+D = np.array([1, 2, 2])
+print(A)
+print(B)
 
-    def eigen(self):
-        self.eigen = np.linalg.eig(A)
 
 abmatrix = Matrix(A, B)
-print(abmatrix.sum())
+print(abmatrix.sum)
+print(abmatrix.typefn())
+print(abmatrix.productfn())
+print(abmatrix.eigen)
